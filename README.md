@@ -1,12 +1,22 @@
 # Discord URL Embedder
 
-Discord URL Embedder is a Discord bot that intercepts messages containing URLs from specific domains and replies with an amended URL. This is useful for bypassing Discord's automatic URL embedding for certain websites.
+Discord URL Embedder is a Discord bot that intercepts messages containing URLs from social media sites and replies with an embed supported alternative.
 
 ## Features
 
-- Intercepts messages containing URLs from specific domains
-- Replaces the domain in the URL with a specified replacement
-- Replies with the amended URL
+- Listens to user messages for social media URL's.
+- Disables the original URL's embed.
+- Replies to the user with an embed supported URL.
+
+## Supported Websites
+
+The bot currently supports intercepting URLs from the following social media apps:
+
+- `TikTok`
+- `Twitter/X`
+- `Instagram`
+
+If you want to add support for more websites, you can modify the `supportedWebsites` array in the `bot.js` file.
 
 ## Setup
 
