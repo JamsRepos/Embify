@@ -1,6 +1,6 @@
-# Discord URL Embedder
+# Embify
 
-Discord URL Embedder is a Discord bot that intercepts messages containing URLs from social media sites and replies with an embed supported alternative.
+Embify is a Discord bot that intercepts messages containing URLs from social media sites and replies with an embed supported alternative.
 
 ## Features
 
@@ -37,13 +37,13 @@ I have a self-hosted instance of the bot currently, if you wish to invite this t
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/Discord-URL-Embedder.git
+git clone https://github.com/JamsRepos/Embify.git
 ```
 
 2. Navigate to the project directory:
 
 ```
-cd Discord-URL-Embedder
+cd Embify
 ```
 
 3. Install the dependencies:
