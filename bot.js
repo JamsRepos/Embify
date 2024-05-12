@@ -23,17 +23,20 @@ class URLFilter {
         const urls = this.extractUrls(message.content);
         urls.forEach(url => {
             try {
-                message.suppressEmbeds(true);
                 for (const [domain, replacement] of Object.entries(this.urlReplacements)) {
                     if (url.includes(domain)) {
+                        message.suppressEmbeds(true).catch(error => {
+                            console.error(`Failed to suppress embeds: ${error}`);
+                        });
+
                         const amendedUrl = url.replace(domain, replacement);
                         message.reply({ content: amendedUrl, allowedMentions: { repliedUser: false } })
-                            .catch(error => console.error(`Failed to send message: ${error}`));
+                            .catch(error => console.error(`Failed to send reply: ${error}`));
                         break;
                     }
                 }
             } catch (error) {
-                console.error(`Error handling message: ${error.message}`);
+                console.error(`Error handling message: ${error}`);
             }
         });
     }
