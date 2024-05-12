@@ -27,6 +27,7 @@ class URLFilter {
                     if (url.includes(domain)) {
                         message.suppressEmbeds(true).catch(error => {
                             console.error(`Failed to suppress embeds: ${error}`);
+                            return; // Skip this URL if we can't suppress embeds
                         });
 
                         const amendedUrl = url.replace(domain, replacement);
