@@ -18,6 +18,12 @@ The bot currently supports intercepting URLs from the following social media app
 
 If you want to add support for more websites, you can modify the `supportedWebsites` array in the `bot.js` file.
 
+## Hosted Instance
+
+I have a self-hosted instance of the bot currently, if you wish to invite this to your server instead of running your own then feel free.
+
+[![Invite the Bot](https://dcbadge.limes.pink/api/shield/654822309781176320?bot=true)](https://discord.com/oauth2/authorize?client_id=654822309781176320&permissions=92160&scope=bot)
+
 ## Setup
 
 ### Prerequisites
