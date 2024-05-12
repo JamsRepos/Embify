@@ -22,13 +22,18 @@ class URLFilter {
 
         const urls = this.extractUrls(message.content);
         urls.forEach(url => {
-            message.suppressEmbeds(true);
-            for (const [domain, replacement] of Object.entries(this.urlReplacements)) {
-                if (url.includes(domain)) {
-                    const amendedUrl = url.replace(domain, replacement);
-                    message.reply(amendedUrl, { mention: false });
-                    break;
+            try {
+                message.suppressEmbeds(true);
+                for (const [domain, replacement] of Object.entries(this.urlReplacements)) {
+                    if (url.includes(domain)) {
+                        const amendedUrl = url.replace(domain, replacement);
+                        message.reply({ content: amendedUrl, allowedMentions: { repliedUser: false } })
+                            .catch(error => console.error(`Failed to send message: ${error}`));
+                        break;
+                    }
                 }
+            } catch (error) {
+                console.error(`Error handling message: ${error.message}`);
             }
         });
     }
