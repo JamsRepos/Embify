@@ -9,7 +9,8 @@ class URLFilter {
             "tiktok.com": "tiktxk.com",
             "twitter.com": "fxtwitter.com",
             "x.com": "fixupx.com",
-            "instagram.com": "ddinstagram.com"
+            "instagram.com": "d.ddinstagram.com",
+            "youtube.com": "yfxtube.com"
         };
     }
 
@@ -23,14 +24,15 @@ class URLFilter {
         const urls = this.extractUrls(message.content);
         urls.forEach(url => {
             try {
+                let amendedUrl = url.replace('www.', '');
                 for (const [domain, replacement] of Object.entries(this.urlReplacements)) {
-                    if (url.includes(domain)) {
+                    if (amendedUrl.includes(domain)) {
                         message.suppressEmbeds(true).catch(error => {
                             console.error(`Failed to suppress embeds: ${error}`);
                             return; // Skip this URL if we can't suppress embeds
                         });
 
-                        const amendedUrl = url.replace(domain, replacement);
+                        amendedUrl = amendedUrl.replace(domain, replacement);
                         message.reply({ content: amendedUrl, allowedMentions: { repliedUser: false } })
                             .catch(error => console.error(`Failed to send reply: ${error}`));
                         break;
@@ -63,7 +65,7 @@ client.on('messageCreate', message => {
 });
 
 client.once(Events.ClientReady, readyClient => {
-	console.log(`[!] ${readyClient.user.tag} is online and listening to messages!`);
+    console.log(`[!] ${readyClient.user.tag} is online and listening to messages!`);
 });
 
 client.login(token);
