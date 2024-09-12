@@ -5,43 +5,76 @@ const token = process.env.DISCORD_BOT_TOKEN;
 
 class URLFilter {
     constructor() {
-        this.urlReplacements = {
-            "tiktok.com": "tiktxk.com",
+        this.urlPatterns = [
+            /https:\/\/twitter\.com\/[a-zA-Z0-9_]+\/status\/\d+(\/photo|\/video\/\d+)?/,
+            /https:\/\/x\.com\/[a-zA-Z0-9_]+\/status\/\d+(\/photo|\/video\/\d+)?/,
+            /https:\/\/www\.pixiv\.net(\/[a-zA-Z]+)?\/artworks\/\d+/,
+            /https:\/\/www\.tiktok\.com\/(t\/\w+|@[\w.]+\/video\/\d+)/,
+            /https:\/\/vm\.tiktok\.com\/\w+/,
+            /https:\/\/vt\.tiktok\.com\/\w+/,
+            /https:\/\/www\.reddit\.com\/r\/[\w]+\/comments\/[\w]+\/[\w]+/,
+            /https:\/\/www\.instagram\.com\/(p|reels?)\/[\w]+/,
+            /https:\/\/www\.furaffinity\.net\/view\/\d+/,
+            /https:\/\/m\.twitch\.tv\/clip\/[\w]+/,
+            /https:\/\/clips\.twitch\.tv\/[\w]+/
+        ];
+        
+        this.urls = {
             "twitter.com": "fxtwitter.com",
             "x.com": "fixupx.com",
-            "instagram.com": "d.ddinstagram.com",
-            "youtube.com": "yfxtube.com"
+            "pixiv.net": "phixiv.net",
+            "tiktok.com": "vxtiktok.com",
+            "reddit.com": "rxddit.com",
+            "instagram.com": "ddinstagram.com",
+            "furaffinity.net": "xfuraffinity.net",
+            "clips.twitch.tv": "fxtwitch.seria.moe/clip",
+            "m.twitch.tv": "fxtwitch.seria.moe"
         };
     }
 
-    onMessage(message) {
+    async onMessage(message) {
         if (message.author.bot) {
             return;
         }
 
-        console.log(`[!] ${message.author.tag} said: ${message.content}`);
-
         const urls = this.extractUrls(message.content);
-        urls.forEach(url => {
+        for (const url of urls) {
             try {
-                let amendedUrl = url.replace('www.', '');
-                for (const [domain, replacement] of Object.entries(this.urlReplacements)) {
-                    if (amendedUrl.includes(domain)) {
-                        message.suppressEmbeds(true).catch(error => {
-                            console.error(`Failed to suppress embeds: ${error}`);
-                            return; // Skip this URL if we can't suppress embeds
-                        });
+                for (const pattern of this.urlPatterns) {
+                    if (pattern.test(url)) {
+                        let amendedUrl = url.replace('www.', '');
 
-                        amendedUrl = amendedUrl.replace(domain, replacement);
-                        message.reply({ content: amendedUrl, allowedMentions: { repliedUser: false } })
-                            .catch(error => console.error(`Failed to send reply: ${error}`));
-                        break;
+                        for (const [domain, replacement] of Object.entries(this.urls)) {
+                            if (amendedUrl.includes(domain)) {
+                                // Try to suppress the embed and log any errors, but continue if it fails
+                                try {
+                                    await message.suppressEmbeds(true);
+                                } catch (error) {
+                                    console.error(`Failed to suppress embeds (continuing): ${error}`);
+                                }
+
+                                // Replace the domain and reply with the amended URL
+                                amendedUrl = amendedUrl.replace(domain, replacement);
+                                try {
+                                    await message.reply({
+                                        content: amendedUrl,
+                                        allowedMentions: { repliedUser: false }
+                                    });
+                                } catch (error) {
+                                    console.error(`Failed to send reply: ${error}`);
+                                }
+
+                                break; // Stop checking other patterns once a match is found
+                            }
+                        }
+
+                        break; // Exit after finding the first matching pattern
                     }
                 }
             } catch (error) {
                 console.error(`Error handling message: ${error}`);
             }
-        });
+        }
     }
 
     extractUrls(text) {
@@ -60,8 +93,8 @@ const client = new Client({
 });
 const urlFilter = new URLFilter();
 
-client.on('messageCreate', message => {
-    urlFilter.onMessage(message);
+client.on('messageCreate', async message => {
+    await urlFilter.onMessage(message);
 });
 
 client.once(Events.ClientReady, readyClient => {
