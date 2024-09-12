@@ -8,13 +8,11 @@ class URLFilter {
         this.urlPatterns = [
             /https:\/\/twitter\.com\/[a-zA-Z0-9_]+\/status\/\d+(\/photo|\/video\/\d+)?/,
             /https:\/\/x\.com\/[a-zA-Z0-9_]+\/status\/\d+(\/photo|\/video\/\d+)?/,
-            /https:\/\/www\.pixiv\.net(\/[a-zA-Z]+)?\/artworks\/\d+/,
             /https:\/\/www\.tiktok\.com\/(t\/\w+|@[\w.]+\/video\/\d+)/,
             /https:\/\/vm\.tiktok\.com\/\w+/,
             /https:\/\/vt\.tiktok\.com\/\w+/,
             /https:\/\/www\.reddit\.com\/r\/[\w]+\/comments\/[\w]+\/[\w]+/,
             /https:\/\/www\.instagram\.com\/(p|reels?)\/[\w]+/,
-            /https:\/\/www\.furaffinity\.net\/view\/\d+/,
             /https:\/\/m\.twitch\.tv\/clip\/[\w]+/,
             /https:\/\/clips\.twitch\.tv\/[\w]+/
         ];
@@ -22,11 +20,9 @@ class URLFilter {
         this.urls = {
             "twitter.com": "fxtwitter.com",
             "x.com": "fixupx.com",
-            "pixiv.net": "phixiv.net",
             "tiktok.com": "vxtiktok.com",
             "reddit.com": "rxddit.com",
             "instagram.com": "ddinstagram.com",
-            "furaffinity.net": "xfuraffinity.net",
             "clips.twitch.tv": "fxtwitch.seria.moe/clip",
             "m.twitch.tv": "fxtwitch.seria.moe"
         };
