@@ -1,15 +1,24 @@
 {
-  "name": "discord-url-embedder",
-  "version": "1.0.0",
+  "name": "embify",
+  "version": "1.3.0",
   "main": "bot.js",
   "scripts": {
+    "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "discord",
+    "bot",
+    "embedder",
+    "social-media",
+    "fallback",
+    "url-checker"
+  ],
+  "author": "Jam",
   "license": "ISC",
-  "description": "",
+  "description": "A Discord bot that intercepts messages containing URLs from social media sites and replies with verified working alternatives.",
   "dependencies": {
+    "axios": "^1.10.0",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5"
   }
